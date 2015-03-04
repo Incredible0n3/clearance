@@ -27,6 +27,5 @@ Next steps:
 
 3. Migrate:
 
-    rake db:migrate
-
+    Yay! Your using mongoid so no migrations are needed! 
 *******************************************************************************

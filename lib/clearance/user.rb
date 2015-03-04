@@ -25,7 +25,7 @@ module Clearance
       end
 
       def find_by_normalized_email(email)
-        find_by_email normalize_email(email)
+        self.where(email: normalize_email(email)).first
       end
 
       def normalize_email(email)

@@ -55,7 +55,6 @@ describe "Clearance Installation" do
   def install_clearance
     successfully "bundle exec rails generate clearance:install"
     successfully "bundle exec rails generate clearance:specs"
-    successfully "bundle exec rake db:migrate db:test:prepare"
   end
 
   def run_specs

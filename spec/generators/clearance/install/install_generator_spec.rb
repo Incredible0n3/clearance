@@ -38,6 +38,16 @@ describe Clearance::Generators::InstallGenerator, :generator do
         expect(user_class).to exist
         expect(user_class).to have_correct_syntax
         expect(user_class).to contain("include Clearance::User")
+        expect(user_class).to contain("include Mongoid::Document")
+        expect(user_class).to contain("include Mongoid::Timestamps")
+        expect(user_class).to contain("validates_presence_of :email, :encrypted_password, :remember_token")
+        expect(user_class).to contain("validates_length_of :encrypted_password, :confirmation_token, :remember_token, maximum: 128")
+        expect(user_class).to contain("field :email, type: String")
+        expect(user_class).to contain("field :encrypted_password, type: String")
+        expect(user_class).to contain("field :confirmation_token, type: String")
+        expect(user_class).to contain("field :remember_token, type: String")
+        expect(user_class).to contain("index({ email: 1 }, { unique: true, name: "email_index" })")
+        expect(user_class).to contain("index({ remember_token: 1 }, { unique: true, name: "remember_token_index" })")
       end
     end
 
@@ -52,66 +62,17 @@ describe Clearance::Generators::InstallGenerator, :generator do
         expect(user_class).to exist
         expect(user_class).to have_correct_syntax
         expect(user_class).to contain("include Clearance::User")
+        expect(user_class).to contain("include Mongoid::Document")
+        expect(user_class).to contain("include Mongoid::Timestamps")
+        expect(user_class).to contain("validates_presence_of :email, :encrypted_password, :remember_token")
+        expect(user_class).to contain("validates_length_of :encrypted_password, :confirmation_token, :remember_token, maximum: 128")
+        expect(user_class).to contain("field :email, type: String")
+        expect(user_class).to contain("field :encrypted_password, type: String")
+        expect(user_class).to contain("field :confirmation_token, type: String")
+        expect(user_class).to contain("field :remember_token, type: String")
+        expect(user_class).to contain("index({ email: 1 }, { unique: true, name: "email_index" })")
+        expect(user_class).to contain("index({ remember_token: 1 }, { unique: true, name: "remember_token_index" })")
         expect(user_class).to have_method("previously_existed?")
-      end
-    end
-  end
-
-  describe "user migration" do
-    context "users table does not exist" do
-      it "creates a migration to create the users table" do
-        provide_existing_application_controller
-        allow(ActiveRecord::Base.connection).to receive(:table_exists?).
-          with(:users).
-          and_return(false)
-
-        run_generator
-        migration = migration_file("db/migrate/create_users.rb")
-
-        expect(migration).to exist
-        expect(migration).to have_correct_syntax
-        expect(migration).to contain("create_table :users")
-      end
-    end
-
-    context "existing users table with all clearance columns and indexes" do
-      it "does not create a migration" do
-        provide_existing_application_controller
-
-        run_generator
-        create_migration = migration_file("db/migrate/create_users.rb")
-        add_migration = migration_file("db/migrate/add_clearance_to_users.rb")
-
-        expect(create_migration).not_to exist
-        expect(add_migration).not_to exist
-      end
-    end
-
-    context "existing users table missing some columns and indexes" do
-      it "create a migration to add missing columns and indexes" do
-        provide_existing_application_controller
-        Struct.new("Named", :name)
-        existing_columns = [Struct::Named.new("remember_token")]
-        existing_indexes = [Struct::Named.new("index_users_on_remember_token")]
-
-        allow(ActiveRecord::Base.connection).to receive(:columns).
-          with(:users).
-          and_return(existing_columns)
-
-        allow(ActiveRecord::Base.connection).to receive(:indexes).
-          with(:users).
-          and_return(existing_indexes)
-
-        run_generator
-        migration = migration_file("db/migrate/add_clearance_to_users.rb")
-
-        expect(migration).to exist
-        expect(migration).to have_correct_syntax
-        expect(migration).to contain("change_table :users")
-        expect(migration).to contain("t.string :email")
-        expect(migration).to contain("add_index :users, :email")
-        expect(migration).not_to contain("t.string :remember_token")
-        expect(migration).not_to contain("add_index :users, :remember_token")
       end
     end
   end

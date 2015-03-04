@@ -1,4 +1,6 @@
-require "rails/all"
+require "action_controller/railtie"
+require "action_mailer/railtie"
+require "sprockets/railtie"
 require "clearance"
 
 module Dummy
@@ -26,7 +28,7 @@ module Dummy
     config.paths["app/controllers"] << "#{APP_ROOT}/app/controllers"
     config.paths["app/models"] << "#{APP_ROOT}/app/models"
     config.paths["app/views"] << "#{APP_ROOT}/app/views"
-    config.paths["config/database"] = "#{APP_ROOT}/config/database.yml"
+    config.paths["config/database"] = "#{APP_ROOT}/config/mongoid.yml"
     config.paths["log"] = "tmp/log/development.log"
     config.secret_token = "SECRET_TOKEN_IS_MIN_30_CHARS_LONG"
 
