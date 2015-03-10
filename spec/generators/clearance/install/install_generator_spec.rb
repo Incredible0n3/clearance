@@ -40,14 +40,12 @@ describe Clearance::Generators::InstallGenerator, :generator do
         expect(user_class).to contain("include Clearance::User")
         expect(user_class).to contain("include Mongoid::Document")
         expect(user_class).to contain("include Mongoid::Timestamps")
-        expect(user_class).to contain("validates_presence_of :email, :encrypted_password, :remember_token")
-        expect(user_class).to contain("validates_length_of :encrypted_password, :confirmation_token, :remember_token, maximum: 128")
         expect(user_class).to contain("field :email, type: String")
         expect(user_class).to contain("field :encrypted_password, type: String")
         expect(user_class).to contain("field :confirmation_token, type: String")
         expect(user_class).to contain("field :remember_token, type: String")
-        expect(user_class).to contain("index({ email: 1 }, { unique: true, name: "email_index" })")
-        expect(user_class).to contain("index({ remember_token: 1 }, { unique: true, name: "remember_token_index" })")
+        expect(user_class).to contain('index({ email: 1 }, { unique: true, name: "email_index" })')
+        expect(user_class).to contain('index({ remember_token: 1 }, { unique: true, name: "remember_token_index" })')
       end
     end
 
@@ -64,14 +62,12 @@ describe Clearance::Generators::InstallGenerator, :generator do
         expect(user_class).to contain("include Clearance::User")
         expect(user_class).to contain("include Mongoid::Document")
         expect(user_class).to contain("include Mongoid::Timestamps")
-        expect(user_class).to contain("validates_presence_of :email, :encrypted_password, :remember_token")
-        expect(user_class).to contain("validates_length_of :encrypted_password, :confirmation_token, :remember_token, maximum: 128")
         expect(user_class).to contain("field :email, type: String")
         expect(user_class).to contain("field :encrypted_password, type: String")
         expect(user_class).to contain("field :confirmation_token, type: String")
         expect(user_class).to contain("field :remember_token, type: String")
-        expect(user_class).to contain("index({ email: 1 }, { unique: true, name: "email_index" })")
-        expect(user_class).to contain("index({ remember_token: 1 }, { unique: true, name: "remember_token_index" })")
+        expect(user_class).to contain('index({ email: 1 }, { unique: true, name: "email_index" })')
+        expect(user_class).to contain('index({ remember_token: 1 }, { unique: true, name: "remember_token_index" })')
         expect(user_class).to have_method("previously_existed?")
       end
     end

@@ -1,8 +1,8 @@
 require "spec_helper"
 
 describe User do
-  it { is_expected.to have_db_index(:email) }
-  it { is_expected.to have_db_index(:remember_token) }
+  it { is_expected.to have_index_for(email: 1) }
+  it { is_expected.to have_index_for(remember_token: 1) }
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_presence_of(:password) }
   it { is_expected.to allow_value("foo@example.co.uk").for(:email) }

@@ -44,12 +44,16 @@ module Clearance
 
       included do
         validates :email,
-          email: { strict_mode: true },
+          format: { with: /\A\s*([-a-z0-9+._]{1,64})@((?:[-a-z0-9]+\.)+[a-z]{2,})\s*\z/i },
           presence: true,
-          uniqueness: { allow_blank: true },
+          uniqueness: true,
           unless: :email_optional?
 
         validates :password, presence: true, unless: :skip_password_validation?
+        #validates_presence_of :email, :password, :remember_token, allow_blank: true
+        #validates_uniqueness_of :email
+        validates_length_of :encrypted_password, :confirmation_token, :remember_token, maximum: 128
+  
       end
     end
 
